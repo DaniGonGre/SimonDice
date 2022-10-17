@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_200"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/rojo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="ROJO"
+        android:background="#FF0000"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="90dp" />
+
+    <Button
+        android:id="@+id/verde"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="VERDE"
+        android:background="#00ff00"
+        android:textColor="#FFFFFF"
+        tools:layout_editor_absoluteX="220dp"
+        tools:layout_editor_absoluteY="90dp" />
+
+    <Button
+        android:id="@+id/azul"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="AZUL"
+        android:background="#0000ff"
+        android:textColor="#FFFFFF"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="260dp" />
+
+    <Button
+        android:id="@+id/amarillo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="AMARILLO"
+        android:background="#FFFF00	"
+        tools:layout_editor_absoluteX="220dp"
+        tools:layout_editor_absoluteY="260dp" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:text="START"
+        android:background="#000000"
+        android:textColor="#FFFFFF"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="450dp" />
+
+    <TextView
+        android:id="@+id/ronda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ronda"
+        tools:layout_editor_absoluteX="337dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+</android.support.constraint.ConstraintLayout>
