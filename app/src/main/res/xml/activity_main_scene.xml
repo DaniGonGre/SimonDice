@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+       <KeyFrameSet>
+       </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_width="170dp"
+            android:layout_height="60dp"
+            android:id="@+id/start"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="72dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHorizontal_bias="0.497" />
+        <Constraint
+            android:layout_height="150dp"
+            android:layout_width="150dp"
+            motion:layout_constraintEnd_toStartOf="@+id/verde"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="50dp"
+            android:id="@+id/rojo"
+            motion:layout_constraintBottom_toTopOf="@+id/azul"
+            motion:layout_constraintHorizontal_bias="0.0" />
+        <Constraint
+            android:layout_height="150dp"
+            android:layout_width="150dp"
+            motion:layout_constraintEnd_toStartOf="@+id/amarillo"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="50dp"
+            android:id="@+id/azul"
+            motion:layout_constraintHorizontal_bias="0.0"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="208dp" />
+        <Constraint
+            android:layout_height="150dp"
+            android:layout_width="150dp"
+            motion:layout_constraintStart_toEndOf="@+id/rojo"
+            android:id="@+id/verde"
+            motion:layout_constraintBottom_toTopOf="@+id/amarillo" />
+        <Constraint
+            android:layout_height="150dp"
+            android:layout_width="150dp"
+            motion:layout_constraintStart_toEndOf="@+id/azul"
+            android:id="@+id/amarillo"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="208dp" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+    </ConstraintSet>
+</MotionScene>
