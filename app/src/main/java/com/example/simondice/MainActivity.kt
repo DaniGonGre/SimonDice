@@ -47,6 +47,13 @@ class MainActivity : AppCompatActivity() {
             azul.setBackgroundColor(resources.getColor(R.color.white))
         }
 
+        fun bColor() {
+            rojo.setBackgroundColor(resources.getColor(R.color.rojo))
+            verde.setBackgroundColor(resources.getColor(R.color.verde))
+            amarillo.setBackgroundColor(resources.getColor(R.color.amarillo))
+            azul.setBackgroundColor(resources.getColor(R.color.azul))
+        }
+
         fun iniciaPartida() {
             Toast.makeText(this, "Memoriza la secuencia", Toast.LENGTH_LONG).show()
             bBlanco()
@@ -54,30 +61,56 @@ class MainActivity : AppCompatActivity() {
         }
 
         suspend fun elegirColor() {
-            for (i in 1..4) {
+            for (i in 1..3) {
                 delay(1000L)
-                if (colorRandom == "rojo"){
-                    val op1 = GlobalScope.launch(Dispatchers.Main) {
-                        rojo.setBackgroundColor(resources.getColor(R.color.rojo))
-                    }
-                }
-                if (colorRandom == "azul"){
-                    val op2 = GlobalScope.launch(Dispatchers.Main) {
-                        azul.setBackgroundColor(resources.getColor(R.color.azul))
-                    }
-                }
-                if (colorRandom == "amarillo"){
-                    val op3 = GlobalScope.launch(Dispatchers.Main) {
-                        amarillo.setBackgroundColor(resources.getColor(R.color.amarillo))
-                    }
-                }
-                if (colorRandom == "verde"){
-                    val op4 = GlobalScope.launch(Dispatchers.Main) {
-                        verde.setBackgroundColor(resources.getColor(R.color.verde))
-                    }
-                }
+                val numRandom = java.util.Random().nextInt(4) + 1
+                val secuenciaColores = when (numRandom) {
+                    1 -> {
+                        val op1 = GlobalScope.launch(Dispatchers.Main) {
+                            rojo.setBackgroundColor(resources.getColor(R.color.rojo))
+                            delay(500L)
+                            rojo.setBackgroundColor(resources.getColor(R.color.white))
+                            almacenamiento.add("rojo")
+                        }
 
+                    }
+                    2 -> {
+                        val op2 = GlobalScope.launch(Dispatchers.Main) {
+                            azul.setBackgroundColor(resources.getColor(R.color.azul))
+                            delay(500L)
+                            azul.setBackgroundColor(resources.getColor(R.color.white))
+                            almacenamiento.add("azul")
+                        }
+
+                    }
+                    3 -> {
+                        val op3 = GlobalScope.launch(Dispatchers.Main) {
+                            amarillo.setBackgroundColor(resources.getColor(R.color.amarillo))
+                            delay(500L)
+                            amarillo.setBackgroundColor(resources.getColor(R.color.white))
+                            almacenamiento.add("amarillo")
+                        }
+
+                    }
+                    else -> {
+                        val op4 = GlobalScope.launch(Dispatchers.Main) {
+                            verde.setBackgroundColor(resources.getColor(R.color.verde))
+                            delay(500L)
+                            verde.setBackgroundColor(resources.getColor(R.color.white))
+                            almacenamiento.add("verde")
+                        }
+
+                    }
+                }
             }
+            delay(500L)
+            bBlanco()
+
+            Toast.makeText(this, "Introduce la secuencia anterior", Toast.LENGTH_LONG).show()
+            rojo.isEnabled = true
+            amarillo.isEnabled = true
+            azul.isEnabled = true
+            verde.isEnabled = true
         }
 
         fun visualizarSecuencia() {
@@ -91,6 +124,7 @@ class MainActivity : AppCompatActivity() {
         start.setOnClickListener {
             iniciaPartida()
             visualizarSecuencia()
+
             start.visibility = View.INVISIBLE
         }
 
