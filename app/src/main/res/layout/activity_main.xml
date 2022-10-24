@@ -13,7 +13,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="#00ff00"
-        android:text="VERDE"
+        android:text=""
         android:textColor="#FFFFFF"
         tools:layout_editor_absoluteX="200dp"
         tools:layout_editor_absoluteY="90dp" />
@@ -23,7 +23,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="#0000ff"
-        android:text="AZUL"
+        android:text=""
         android:textColor="#FFFFFF"
         tools:layout_editor_absoluteX="50dp"
         tools:layout_editor_absoluteY="260dp" />
@@ -33,7 +33,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="#FF0000"
-        android:text="ROJO"
+        android:text=""
         tools:layout_editor_absoluteX="50dp"
         tools:layout_editor_absoluteY="90dp" />
 
@@ -42,7 +42,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="#FFFF00	"
-        android:text="AMARILLO"
+        android:text=""
         tools:layout_editor_absoluteX="200dp"
         tools:layout_editor_absoluteY="260dp" />
 
@@ -60,8 +60,32 @@
         android:id="@+id/ronda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ronda"
+        android:text="Ronda: "
         tools:layout_editor_absoluteX="337dp"
         tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/numRonda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        tools:layout_editor_absoluteX="362dp"
+        tools:layout_editor_absoluteY="14dp" />
+
+    <TextView
+        android:id="@+id/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record: "
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <TextView
+        android:id="@+id/numRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        tools:layout_editor_absoluteX="67dp"
+        tools:layout_editor_absoluteY="6dp" />
 
 </android.support.constraint.motion.MotionLayout>
