@@ -60,17 +60,44 @@
             android:layout_width="22dp"
             android:id="@+id/textView" />
         <Constraint
-            motion:layout_editor_absoluteY="16dp"
+            motion:layout_editor_absoluteY="28dp"
             android:layout_height="wrap_content"
-            motion:layout_editor_absoluteX="387dp"
             android:layout_width="wrap_content"
-            android:id="@+id/numRonda" />
+            android:id="@+id/numRonda"
+            motion:layout_constraintStart_toEndOf="@+id/ronda"
+            android:layout_marginLeft="79dp"
+            android:layout_marginStart="79dp"
+            motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
             motion:layout_editor_absoluteY="10dp"
             android:layout_height="wrap_content"
             motion:layout_editor_absoluteX="66dp"
             android:layout_width="wrap_content"
             android:id="@+id/textView3" />
+        <Constraint
+            motion:layout_editor_absoluteY="28dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/numRecord"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp" />
+        <Constraint
+            motion:layout_editor_absoluteY="28dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/record"
+            motion:layout_constraintEnd_toStartOf="@+id/numRecord" />
+        <Constraint
+            motion:layout_editor_absoluteY="28dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/ronda"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            motion:layout_constraintEnd_toStartOf="@+id/numRonda"
+            motion:layout_constraintHorizontal_bias="1.0" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">

@@ -3,9 +3,14 @@ package com.example.simondice
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,10 +19,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //Variables
-        var random = (0..3).random()
         var record = 0
         var velocidad = 0
         var ronda = 0
+        var almacenamiento = arrayListOf<String>()
 
         //Creamos las variables de los botones de la ui
         val start:Button = findViewById(R.id.start)
@@ -29,34 +34,6 @@ class MainActivity : AppCompatActivity() {
         //Añadimos un array con la secuencia de colores
         val colores = arrayOf("verde", "amarillo", "azul", "rojo")
         var colorRandom = colores.random()
-
-        /*var secuencia = arrayListOf<String>()
-        secuencia.add("verde")
-        secuencia.add("azul")
-        secuencia.add("amarillo")
-        secuencia.add("rojo")
-        val secuenciaRandom = secuencia.random()*/
-
-
-        fun visualizarColor() {
-
-            if (colorRandom == "verde"){
-                verde.setBackgroundColor(Color.GREEN)
-            }
-
-            if (colorRandom == "rojo"){
-                verde.setBackgroundColor(Color.RED)
-            }
-
-            if (colorRandom == "azul"){
-                verde.setBackgroundColor(Color.BLUE)
-            }
-
-            if (colorRandom == "amarillo"){
-                verde.setBackgroundColor(Color.YELLOW)
-            }
-
-        }
 
         fun mostrarRonda() {
             val ronda: TextView = findViewById(R.id.ronda)
@@ -73,11 +50,48 @@ class MainActivity : AppCompatActivity() {
         fun iniciaPartida() {
             Toast.makeText(this, "Memoriza la secuencia", Toast.LENGTH_LONG).show()
             bBlanco()
-            visualizarColor()
+
         }
+
+        suspend fun elegirColor() {
+            for (i in 1..4) {
+                delay(1000L)
+                if (colorRandom == "rojo"){
+                    val op1 = GlobalScope.launch(Dispatchers.Main) {
+                        rojo.setBackgroundColor(resources.getColor(R.color.rojo))
+                    }
+                }
+                if (colorRandom == "azul"){
+                    val op2 = GlobalScope.launch(Dispatchers.Main) {
+                        azul.setBackgroundColor(resources.getColor(R.color.azul))
+                    }
+                }
+                if (colorRandom == "amarillo"){
+                    val op3 = GlobalScope.launch(Dispatchers.Main) {
+                        amarillo.setBackgroundColor(resources.getColor(R.color.amarillo))
+                    }
+                }
+                if (colorRandom == "verde"){
+                    val op4 = GlobalScope.launch(Dispatchers.Main) {
+                        verde.setBackgroundColor(resources.getColor(R.color.verde))
+                    }
+                }
+
+            }
+        }
+
+        fun visualizarSecuencia() {
+            val job = GlobalScope.launch(Dispatchers.Main) {
+                elegirColor()
+            }
+        }
+
+
 
         start.setOnClickListener {
             iniciaPartida()
+            visualizarSecuencia()
+            start.visibility = View.INVISIBLE
         }
 
 
