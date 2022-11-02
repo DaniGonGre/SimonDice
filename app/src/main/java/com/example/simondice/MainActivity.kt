@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         var velocidad = 0
         var ronda = 0
         var almacenamiento = arrayListOf<String>()
+        var almacenamientoJugador = arrayListOf<String>()
 
         //Creamos las variables de los botones de la ui
         val start:Button = findViewById(R.id.start)
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             ronda.text = ("Rondas: " + ronda)
         }
 
+        //Creamos una función que ponga los botones en blanco
         fun bBlanco() {
             rojo.setBackgroundColor(resources.getColor(R.color.white))
             verde.setBackgroundColor(resources.getColor(R.color.white))
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             azul.setBackgroundColor(resources.getColor(R.color.white))
         }
 
+        //Creamos una función que le de color a los botones
         fun bColor() {
             rojo.setBackgroundColor(resources.getColor(R.color.rojo))
             verde.setBackgroundColor(resources.getColor(R.color.verde))
@@ -119,11 +122,42 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fun jugador() {
+            val rojo: Button = findViewById(R.id.rojo)
+            val amarillo: Button = findViewById(R.id.amarillo)
+            val verde: Button = findViewById(R.id.verde)
+            val azul: Button = findViewById(R.id.azul)
+
+            //Almacenamos la secuencia que ejecute el jugador
+            rojo.setOnClickListener { almacenamientoJugador.add("rojo") }
+            amarillo.setOnClickListener { almacenamientoJugador.add("amarillo") }
+            verde.setOnClickListener { almacenamientoJugador.add("verde") }
+            azul.setOnClickListener { almacenamientoJugador.add("azul") }
+
+            //Bloqueamos botones
+            rojo.isEnabled = false;
+            amarillo.isEnabled = false;
+            verde.isEnabled = false;
+            azul.isEnabled = false;
+
+        }
+
+        fun comprobarSecuencia(){
+            if(almacenamientoJugador == almacenamiento){
+                Toast.makeText(this, "ACERTASTE", Toast.LENGTH_LONG).show()
+                ronda++;
+            } else {
+                Toast.makeText(this, "FALLASTE", Toast.LENGTH_LONG).show()
+            }
+        }
+
 
 
         start.setOnClickListener {
             iniciaPartida()
             visualizarSecuencia()
+            jugador()
+            comprobarSecuencia()
 
             start.visibility = View.INVISIBLE
         }
