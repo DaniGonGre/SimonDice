@@ -1,8 +1,8 @@
 package com.example.simondice
 
-import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    var ronda = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         //Variables
         var record = 0
         var velocidad = 0
-        var ronda = 0
         var almacenamiento = arrayListOf<String>()
         var almacenamientoJugador = arrayListOf<String>()
 
@@ -31,10 +32,6 @@ class MainActivity : AppCompatActivity() {
         val amarillo:Button = findViewById(R.id.amarillo)
         val verde:Button = findViewById(R.id.verde)
         val azul:Button = findViewById(R.id.azul)
-
-        //Añadimos un array con la secuencia de colores
-        val colores = arrayOf("verde", "amarillo", "azul", "rojo")
-        var colorRandom = colores.random()
 
         fun mostrarRonda() {
             val ronda: TextView = findViewById(R.id.ronda)
@@ -49,18 +46,42 @@ class MainActivity : AppCompatActivity() {
             azul.setBackgroundColor(resources.getColor(R.color.white))
         }
 
-        //Creamos una función que le de color a los botones
-        fun bColor() {
-            rojo.setBackgroundColor(resources.getColor(R.color.rojo))
-            verde.setBackgroundColor(resources.getColor(R.color.verde))
-            amarillo.setBackgroundColor(resources.getColor(R.color.amarillo))
-            azul.setBackgroundColor(resources.getColor(R.color.azul))
-        }
-
         fun iniciaPartida() {
+            almacenamiento.clear()
+            almacenamientoJugador.clear()
+
+            rojo.isEnabled = false
+            amarillo.isEnabled = false
+            azul.isEnabled = false
+            verde.isEnabled = false
+
             Toast.makeText(this, "Memoriza la secuencia", Toast.LENGTH_LONG).show()
             bBlanco()
 
+        }
+
+        suspend fun colorRojo() {
+            rojo.setBackgroundColor(resources.getColor(R.color.rojo))
+            delay(500L)
+            rojo.setBackgroundColor(resources.getColor(R.color.white))
+        }
+
+        suspend fun colorAzul() {
+            azul.setBackgroundColor(resources.getColor(R.color.azul))
+            delay(500L)
+            azul.setBackgroundColor(resources.getColor(R.color.white))
+        }
+
+        suspend fun colorVerde() {
+            verde.setBackgroundColor(resources.getColor(R.color.verde))
+            delay(500L)
+            verde.setBackgroundColor(resources.getColor(R.color.white))
+        }
+
+        suspend fun colorAmarillo() {
+            amarillo.setBackgroundColor(resources.getColor(R.color.amarillo))
+            delay(500L)
+            amarillo.setBackgroundColor(resources.getColor(R.color.white))
         }
 
         suspend fun elegirColor() {
@@ -69,37 +90,29 @@ class MainActivity : AppCompatActivity() {
                 val numRandom = java.util.Random().nextInt(4) + 1
                 val secuenciaColores = when (numRandom) {
                     1 -> {
-                        val op1 = GlobalScope.launch(Dispatchers.Main) {
-                            rojo.setBackgroundColor(resources.getColor(R.color.rojo))
-                            delay(500L)
-                            rojo.setBackgroundColor(resources.getColor(R.color.white))
+                        GlobalScope.launch(Dispatchers.Main) {
+                            colorRojo();
                             almacenamiento.add("rojo")
                         }
 
                     }
                     2 -> {
-                        val op2 = GlobalScope.launch(Dispatchers.Main) {
-                            azul.setBackgroundColor(resources.getColor(R.color.azul))
-                            delay(500L)
-                            azul.setBackgroundColor(resources.getColor(R.color.white))
+                        GlobalScope.launch(Dispatchers.Main) {
+                            colorAzul();
                             almacenamiento.add("azul")
                         }
 
                     }
                     3 -> {
-                        val op3 = GlobalScope.launch(Dispatchers.Main) {
-                            amarillo.setBackgroundColor(resources.getColor(R.color.amarillo))
-                            delay(500L)
-                            amarillo.setBackgroundColor(resources.getColor(R.color.white))
+                        GlobalScope.launch(Dispatchers.Main) {
+                            colorAmarillo();
                             almacenamiento.add("amarillo")
                         }
 
                     }
                     else -> {
-                        val op4 = GlobalScope.launch(Dispatchers.Main) {
-                            verde.setBackgroundColor(resources.getColor(R.color.verde))
-                            delay(500L)
-                            verde.setBackgroundColor(resources.getColor(R.color.white))
+                        GlobalScope.launch(Dispatchers.Main) {
+                            colorVerde();
                             almacenamiento.add("verde")
                         }
 
@@ -122,36 +135,70 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fun jugador() {
-            val rojo: Button = findViewById(R.id.rojo)
-            val amarillo: Button = findViewById(R.id.amarillo)
-            val verde: Button = findViewById(R.id.verde)
-            val azul: Button = findViewById(R.id.azul)
-
-            //Almacenamos la secuencia que ejecute el jugador
-            rojo.setOnClickListener { almacenamientoJugador.add("rojo") }
-            amarillo.setOnClickListener { almacenamientoJugador.add("amarillo") }
-            verde.setOnClickListener { almacenamientoJugador.add("verde") }
-            azul.setOnClickListener { almacenamientoJugador.add("azul") }
-
-            //Bloqueamos botones
-            rojo.isEnabled = false;
-            amarillo.isEnabled = false;
-            verde.isEnabled = false;
-            azul.isEnabled = false;
-
-        }
-
         fun comprobarSecuencia(){
+
+            rojo.isEnabled = false
+            amarillo.isEnabled = false
+            azul.isEnabled = false
+            verde.isEnabled = false
+
             if(almacenamientoJugador == almacenamiento){
                 Toast.makeText(this, "ACERTASTE", Toast.LENGTH_LONG).show()
                 ronda++;
+                iniciaPartida()
+
             } else {
                 Toast.makeText(this, "FALLASTE", Toast.LENGTH_LONG).show()
             }
         }
 
+        fun jugador() {
+            var contador = 0
 
+            //Almacenamos la secuencia que ejecute el jugador
+                rojo.setOnClickListener {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        colorRojo();
+                        almacenamientoJugador.add("rojo")
+                        contador++
+                        Log.d("jugador", contador.toString())
+                    }
+                }
+
+                amarillo.setOnClickListener {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        colorAmarillo();
+                        almacenamientoJugador.add("amarillo")
+                        contador++
+                        Log.d("jugador", contador.toString())
+                        if(contador==3){
+                            comprobarSecuencia()
+                        }
+                    }
+                }
+                verde.setOnClickListener {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        colorVerde();
+                        almacenamientoJugador.add("verde")
+                        contador++
+                        Log.d("jugador", contador.toString())
+                        if(contador==3){
+                            comprobarSecuencia()
+                        }
+                    }
+                }
+                azul.setOnClickListener {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        colorAzul();
+                        almacenamientoJugador.add("azul")
+                        contador++
+                        Log.d("jugador", contador.toString())
+                        if(contador==3){
+                            comprobarSecuencia()
+                        }
+                    }
+                }
+        }
 
         start.setOnClickListener {
             iniciaPartida()
