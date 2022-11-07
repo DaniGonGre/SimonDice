@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    var ronda = 0
+    var contRonda = 3
+    var contador = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         val azul:Button = findViewById(R.id.azul)
 
         fun mostrarRonda() {
-            val ronda: TextView = findViewById(R.id.ronda)
-            ronda.text = ("Rondas: " + ronda)
+            var ronda: TextView = findViewById(R.id.ronda)
+
         }
 
         //Creamos una función que ponga los botones en blanco
@@ -85,34 +86,35 @@ class MainActivity : AppCompatActivity() {
         }
 
         suspend fun elegirColor() {
-            for (i in 1..3) {
+
+            for (i in 1..contRonda) {
                 delay(1000L)
                 val numRandom = java.util.Random().nextInt(4) + 1
                 val secuenciaColores = when (numRandom) {
                     1 -> {
                         GlobalScope.launch(Dispatchers.Main) {
-                            colorRojo();
+                            colorRojo()
                             almacenamiento.add("rojo")
                         }
 
                     }
                     2 -> {
                         GlobalScope.launch(Dispatchers.Main) {
-                            colorAzul();
+                            colorAzul()
                             almacenamiento.add("azul")
                         }
 
                     }
                     3 -> {
                         GlobalScope.launch(Dispatchers.Main) {
-                            colorAmarillo();
+                            colorAmarillo()
                             almacenamiento.add("amarillo")
                         }
 
                     }
                     else -> {
                         GlobalScope.launch(Dispatchers.Main) {
-                            colorVerde();
+                            colorVerde()
                             almacenamiento.add("verde")
                         }
 
@@ -135,88 +137,72 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fun comprobarSecuencia(){
+        fun comprobarSecuencia() {
 
-            rojo.isEnabled = false
-            amarillo.isEnabled = false
-            azul.isEnabled = false
-            verde.isEnabled = false
+            if(contador==contRonda) {
 
-            if(almacenamientoJugador == almacenamiento){
-                Toast.makeText(this, "ACERTASTE", Toast.LENGTH_LONG).show()
-                ronda++;
-                iniciaPartida()
+                rojo.isEnabled = false
+                amarillo.isEnabled = false
+                azul.isEnabled = false
+                verde.isEnabled = false
 
-            } else {
-                Toast.makeText(this, "FALLASTE", Toast.LENGTH_LONG).show()
+                if (almacenamientoJugador == almacenamiento) {
+                    Toast.makeText(this, "ACERTASTE", Toast.LENGTH_LONG).show()
+                    contRonda++
+
+                } else {
+                    Toast.makeText(this, "FALLASTE", Toast.LENGTH_LONG).show()
+
+                }
             }
+
         }
 
         fun jugador() {
-            var contador = 0
 
             //Almacenamos la secuencia que ejecute el jugador
                 rojo.setOnClickListener {
                     GlobalScope.launch(Dispatchers.Main) {
-                        colorRojo();
+                        colorRojo()
                         almacenamientoJugador.add("rojo")
                         contador++
-                        Log.d("jugador", contador.toString())
+                        comprobarSecuencia()
                     }
                 }
 
                 amarillo.setOnClickListener {
                     GlobalScope.launch(Dispatchers.Main) {
-                        colorAmarillo();
+                        colorAmarillo()
                         almacenamientoJugador.add("amarillo")
                         contador++
-                        Log.d("jugador", contador.toString())
-                        if(contador==3){
-                            comprobarSecuencia()
-                        }
+                        comprobarSecuencia()
                     }
                 }
                 verde.setOnClickListener {
                     GlobalScope.launch(Dispatchers.Main) {
-                        colorVerde();
+                        colorVerde()
                         almacenamientoJugador.add("verde")
                         contador++
-                        Log.d("jugador", contador.toString())
-                        if(contador==3){
-                            comprobarSecuencia()
-                        }
+                        comprobarSecuencia()
                     }
                 }
                 azul.setOnClickListener {
                     GlobalScope.launch(Dispatchers.Main) {
-                        colorAzul();
+                        colorAzul()
                         almacenamientoJugador.add("azul")
                         contador++
-                        Log.d("jugador", contador.toString())
-                        if(contador==3){
-                            comprobarSecuencia()
-                        }
+                        comprobarSecuencia()
                     }
                 }
         }
 
         start.setOnClickListener {
+
             iniciaPartida()
             visualizarSecuencia()
             jugador()
-            comprobarSecuencia()
 
             start.visibility = View.INVISIBLE
         }
-
-
-
-
-
-
-
-
-
-
     }
 }
