@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -24,9 +25,41 @@ class MainActivity : AppCompatActivity() {
     var contRonda = 3
     var contador = 0
 
+    // para que sea mas facil la etiqueta del log
+    private val TAG_LOG: String = "mensaje Main"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // cargamos layout
         setContentView(R.layout.activity_main)
+
+        // Instanciamos el ViewModel
+        // nomenclatura que necesita utilizar jvm 1.8
+        // se configure en project structure -> Modules -> Target Compatibillity
+        val miModelo by viewModels<MyViewModel>()
+
+        // definimos el listener del boton
+        // llama a una función del ViewModel
+        // que es el encargado de manipular los datos
+        val botonNuevoRandom: Button = findViewById(R.id.roll_button)
+        botonNuevoRandom.setOnClickListener {
+            // llama a la función del ViewModel
+            miModelo.sumarRandom()
+            Log.d(TAG_LOG, "Actualizo ronda")
+        }
+
+        // observamos cambios en livedata
+        miModelo.livedata_numbers.observe(
+            this,
+            Observer(
+                // funcion que llamaremos cada vez que cambie el valor del observable
+                fun(nuevaListaRandom: MutableList<Int>) {
+                    // actualizamos textView en caso de recibir datos
+                    var textRandom: TextView = findViewById(R.id.textRandom)
+                    textRandom.text = nuevaListaRandom.toString()
+                }
+            )
+        )
 
         /**
          * Creamos la variable start que se corresponde al botón creado en la interfaz gráfica, el
