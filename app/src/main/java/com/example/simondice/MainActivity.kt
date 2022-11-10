@@ -7,11 +7,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+// para observar LiveDatas
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,42 +21,38 @@ class MainActivity : AppCompatActivity() {
     /**
      * Inicializamos dos variables, una para contar la ronda en la que estamos y otra para contar el
      * número de clicks en la pantalla. Igualamos contRonda a 3 porque serán las veces que tenga que
-     * pulsar el jugador los colores en la primera ronda.
+     * pulsar el jugador los colores en la primera ronda
      */
 
     var contRonda = 3
     var contador = 0
 
-    // para que sea mas facil la etiqueta del log
+    // Creamos una constante privada para darle cambiarle la etiqueta al log
     private val TAG_LOG: String = "mensaje Main"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // cargamos layout
+        // Cargamos el layout
         setContentView(R.layout.activity_main)
 
         // Instanciamos el ViewModel
-        // nomenclatura que necesita utilizar jvm 1.8
-        // se configure en project structure -> Modules -> Target Compatibillity
         val miModelo by viewModels<MyViewModel>()
 
-        // definimos el listener del boton
-        // llama a una función del ViewModel
-        // que es el encargado de manipular los datos
+        // Definimos el listener del boton que llama a una función encargada de manipular los datos
         val botonNuevoRandom: Button = findViewById(R.id.roll_button)
         botonNuevoRandom.setOnClickListener {
-            // llama a la función del ViewModel
+            // Llama a la función del ViewModel que suma un random
             miModelo.sumarRandom()
             Log.d(TAG_LOG, "Actualizo ronda")
         }
 
-        // observamos cambios en livedata
+        // Observamos cambios en livedata
         miModelo.livedata_numbers.observe(
             this,
             Observer(
-                // funcion que llamaremos cada vez que cambie el valor del observable
+                // Funcion que llamaremos cada vez que cambie el valor del observable
                 fun(nuevaListaRandom: MutableList<Int>) {
-                    // actualizamos textView en caso de recibir datos
+                    // Actualizamos textView en caso de recibir datos
                     var textRandom: TextView = findViewById(R.id.textRandom)
                     textRandom.text = nuevaListaRandom.toString()
                 }
@@ -64,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         /**
          * Creamos la variable start que se corresponde al botón creado en la interfaz gráfica, el
          * cual buscamos por su id. Al pulsar el botón Start el juego mostrará un mensaje, pondrá
-         * invisible el botón de inicio y iniciará la partida.
+         * invisible el botón de inicio y iniciará la partida
          */
 
         val start: Button = findViewById(R.id.start)
@@ -82,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Creamos una variable para visualizar el record, además dos variables más de tipo array dónde
      * recogeremos el código de colores creador aleatoriamente por el juego y otra que estará
-     * compuesta por los colores que pulse el jugador en su turno.
+     * compuesta por los colores que pulse el jugador en su turno
      */
 
     var record = 0
@@ -92,7 +90,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Esta función limpia el almacenamiento de los arrays cada vez que pasamos una ronda o al
      * perder el juego, bloquea la pulsación de los botones, los pone en blanco y inicia el método
-     * que visualiza la secuencia aleatoria.
+     * que visualiza la secuencia aleatoria
      */
 
     fun iniciaPartida() {
@@ -120,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Creamos corrutinas de cada color que nos permiten poner delay al cambiar el color del botón,
-     * de esta forma podremos diferenciar si un color sale dos veces seguidas.
+     * de esta forma podremos diferenciar si un color sale dos veces seguidas
      */
 
     suspend fun colorRojo() {
@@ -158,7 +156,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Esta función crea un bucle dependiendo de la ronda en la que estemos y crea una secuencia
      * random de colores, esta secuencia se almacena en un array para recogerla posteriormente.
-     * Después habilitamos los botones para que los pueda pulsar el jugador.
+     * Después habilitamos los botones para que los pueda pulsar el jugador
      */
 
     suspend fun elegirColor() {
@@ -219,7 +217,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Para visualizar la secuencia creamos un metodo en el que llamamos a la función suspendida
-     * anterior, además llamamos la función jugador.
+     * anterior, además llamamos la función jugador
      */
 
     fun visualizarSecuencia() {
@@ -232,7 +230,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Esta función permite introducir los colores a el usuario y almacena su secuencia de colores
-     * para compararla en la funcion comprobarSecuencia().
+     * para compararla en la funcion comprobarSecuencia()
      */
 
     fun jugador() {
@@ -294,7 +292,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Por último, comprobamos la secuencia introducida por el jugador. Si es correcta añadimos
      * un mensaje que diga que acertó, incrementamos la ronda y el número de colores de la
-     * secuencia. Si falla vuelve a empezar el programa.
+     * secuencia. Si falla vuelve a empezar el programa
      */
 
     fun comprobarSecuencia() {
