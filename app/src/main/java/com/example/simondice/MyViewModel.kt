@@ -36,4 +36,6 @@ class MyViewModel() : ViewModel() {
         // La mostramos en el logcat
         Log.d(TAG_LOG, "Añadimos Array al livedata:" + numbers.toString())
     }
+
+
 }
