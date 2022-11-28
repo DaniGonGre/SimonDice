@@ -1,14 +1,17 @@
 package com.example.simondice
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Room
 import kotlin.random.Random
 
 /**
  * Inicializa y modifica los datos de la app
  */
-class MyViewModel() : ViewModel() {
+class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     // Creamos una constante privada para darle cambiarle la etiqueta al log
     private val TAG_LOG: String = "mensaje ViewModel"
@@ -42,6 +45,16 @@ class MyViewModel() : ViewModel() {
         // Retornamos el último valor del array ronda
         return ronda[ronda.lastIndex]
     }
+
+    /*val db = Room.databaseBuilder(
+        getApplication<Application>().applicationContext,
+        AppDatabase::class.java, "datosBD"
+    ).build()*/
+
+    val db = Room.databaseBuilder(
+        getApplication<Application>().applicationContext,
+        AppDatabase::class.java, "database-name"
+    ).build()
 
 
 }
