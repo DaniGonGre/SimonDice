@@ -35,30 +35,6 @@ class MainActivity : AppCompatActivity() {
         // Cargamos el layout
         setContentView(R.layout.activity_main)
 
-        // Instanciamos el ViewModel
-        val miModelo by viewModels<MyViewModel>()
-
-        // Definimos el listener del boton que llama a una función encargada de manipular los datos
-        val botonNuevoRandom: Button = findViewById(R.id.roll_button)
-        botonNuevoRandom.setOnClickListener {
-            // Llama a la función del ViewModel que suma un random
-            miModelo.sumarRandom()
-            Log.d(TAG_LOG, "Actualizo ronda")
-        }
-
-        // Observamos cambios en livedata
-        miModelo.livedata_numbers.observe(
-            this,
-            Observer(
-                // Funcion que llamaremos cada vez que cambie el valor del observable
-                fun(nuevaListaRandom: MutableList<Int>) {
-                    // Actualizamos textView en caso de recibir datos
-                    var textRandom: TextView = findViewById(R.id.textRandom)
-                    textRandom.text = nuevaListaRandom.toString()
-                }
-            )
-        )
-
         /**
          * Creamos la variable start que se corresponde al botón creado en la interfaz gráfica, el
          * cual buscamos por su id. Al pulsar el botón Start el juego mostrará un mensaje, pondrá
@@ -86,6 +62,41 @@ class MainActivity : AppCompatActivity() {
     var record = 0
     var almacenamiento = arrayListOf<String>()
     var almacenamientoJugador = arrayListOf<String>()
+
+    /**
+     * Función mostrar ronda con el observer
+     */
+
+    fun mostrarRonda() {
+
+        // Instanciamos el ViewModel
+        val miModelo by viewModels<MyViewModel>()
+
+        // Definimos el listener del boton que llama a una función encargada de manipular los datos
+        /*val botonNuevoRandom: Button = findViewById(R.id.roll_button)
+        botonNuevoRandom.setOnClickListener {
+            // Llama a la función del ViewModel que suma un random
+            miModelo.enseñaRonda()
+            Log.d(TAG_LOG, "Actualizo ronda")
+        }*/
+
+        // Observamos cambios en livedata
+        miModelo.livedata_numbers.observe(
+            this,
+            Observer(
+                // Funcion que llamaremos cada vez que cambie el valor del observable
+                fun(newRonda: MutableList<Int>) {
+                    // Actualizamos textView en caso de recibir datos
+                    /*var textRonda: TextView = findViewById(R.id.numRonda)
+                    textRonda.setText(newRonda.toString())*/
+                    contRonda = newRonda.size
+                }
+            )
+        )
+        var textRonda: TextView = findViewById(R.id.numRonda)
+        textRonda.text=(miModelo.enseñaRonda().toString())
+
+    }
 
     /**
      * Esta función limpia el almacenamiento de los arrays cada vez que pasamos una ronda o al
@@ -253,7 +264,6 @@ class MainActivity : AppCompatActivity() {
                 colorRojo()
                 almacenamientoJugador.add("rojo")
                 contador++
-                record++
                 comprobarSecuencia()
             }
         }
@@ -263,7 +273,6 @@ class MainActivity : AppCompatActivity() {
                 colorAmarillo()
                 almacenamientoJugador.add("amarillo")
                 contador++
-                record++
                 comprobarSecuencia()
             }
         }
@@ -272,7 +281,6 @@ class MainActivity : AppCompatActivity() {
                 colorVerde()
                 almacenamientoJugador.add("verde")
                 contador++
-                record++
                 comprobarSecuencia()
             }
         }
@@ -281,7 +289,6 @@ class MainActivity : AppCompatActivity() {
                 colorAzul()
                 almacenamientoJugador.add("azul")
                 contador++
-                record++
                 comprobarSecuencia()
             }
         }
@@ -309,11 +316,11 @@ class MainActivity : AppCompatActivity() {
         if (contador == contRonda) {
 
             val nRonda: TextView = findViewById(R.id.numRonda)
-            val nRecord: TextView = findViewById(R.id.numRecord)
+            //val nRecord: TextView = findViewById(R.id.numRecord)
 
-            var stringRonda = ""
-            var suma = 0
-            var stringRecord = ""
+            //var stringRonda = ""
+            //var suma = 0
+            //var stringRecord = ""
 
             contador = 0
 
@@ -325,18 +332,17 @@ class MainActivity : AppCompatActivity() {
             if (almacenamientoJugador == almacenamiento) {
                 Toast.makeText(this, "ACERTASTE", Toast.LENGTH_SHORT).show()
                 contRonda++
-                suma = suma + 1
-                stringRonda = suma.toString()
-                nRonda.setText(stringRonda)
-
+                //suma = suma + 1
+                //stringRonda = suma.toString()
+                //nRonda.setText(stringRonda)
                 iniciaPartida()
 
             } else {
                 Toast.makeText(this, "FALLASTE", Toast.LENGTH_SHORT).show()
                 contRonda = 3
                 nRonda.setText("0")
-                stringRecord = record.toString()
-                nRecord.setText(stringRecord)
+                //stringRecord = record.toString()
+                //nRecord.setText(stringRecord)
                 iniciaPartida()
             }
         }
