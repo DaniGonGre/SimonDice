@@ -9,5 +9,5 @@ class AppDatabase {
     abstract class AppDataBase : RoomDatabase() {
         abstract fun datosDao(): DatosDAO
     }
-    
+
 }

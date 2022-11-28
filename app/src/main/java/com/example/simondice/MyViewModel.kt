@@ -46,15 +46,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         return ronda[ronda.lastIndex]
     }
 
-    /*val db = Room.databaseBuilder(
-        getApplication<Application>().applicationContext,
-        AppDatabase::class.java, "datosBD"
-    ).build()*/
-
     val db = Room.databaseBuilder(
         getApplication<Application>().applicationContext,
-        AppDatabase::class.java, "database-name"
+        AppDatabase::class.java, "datosBD"
     ).build()
 
+    
 
 }
