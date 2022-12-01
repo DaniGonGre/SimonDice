@@ -2,7 +2,6 @@ package com.example.simondice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -48,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Memoriza la secuencia", Toast.LENGTH_LONG).show()
             start.visibility = View.INVISIBLE
             iniciaPartida()
+            mostrarRonda()
 
         }
 
@@ -72,30 +72,26 @@ class MainActivity : AppCompatActivity() {
         // Instanciamos el ViewModel
         val miModelo by viewModels<MyViewModel>()
 
-        // Definimos el listener del boton que llama a una función encargada de manipular los datos
-        /*val botonNuevoRandom: Button = findViewById(R.id.roll_button)
-        botonNuevoRandom.setOnClickListener {
-            // Llama a la función del ViewModel que suma un random
-            miModelo.enseñaRonda()
-            Log.d(TAG_LOG, "Actualizo ronda")
-        }*/
-
         // Observamos cambios en livedata
-        miModelo.livedata_numbers.observe(
+        miModelo.ronda.observe(
             this,
-            Observer(
-                // Funcion que llamaremos cada vez que cambie el valor del observable
-                fun(newRonda: MutableList<Int>) {
-                    // Actualizamos textView en caso de recibir datos
-                    /*var textRonda: TextView = findViewById(R.id.numRonda)
-                    textRonda.setText(newRonda.toString())*/
-                    contRonda = newRonda.size
+            androidx.lifecycle.Observer(
+                fun (_: Int) {
+                    val ronda : TextView = findViewById(R.id.ronda)
+                    if (miModelo.ronda.value != 0)
+                        ronda.text = miModelo.ronda.value.toString()
                 }
             )
         )
-        var textRonda: TextView = findViewById(R.id.numRonda)
-        textRonda.text=(miModelo.enseñaRonda().toString())
-
+        miModelo.record.observe(
+            this,
+            androidx.lifecycle.Observer(
+                fun (_: Int) {
+                    val record : TextView = findViewById(R.id.record)
+                    record.text = miModelo.record.value.toString()
+                }
+            )
+        )
     }
 
     /**

@@ -4,11 +4,14 @@ import androidx.room.*
 
     @Dao
     interface DatosDAO {
-        @Query("SELECT*FROM Dato WHERE ronda=(SELECT MAX(ronda) FROM Dato)")
-        fun datoMayor(mayor:Int): Dato
 
-        @Insert
-        fun insertar(datos: Dato)
+        //Seleccionamos la ronda mayor
+        @Query("SELECT ronda FROM Dato WHERE id = 1")
+        suspend fun getRonda(): Int
+
+        //Actualizamos la base de datos
+        @Update
+        suspend fun actualizar(datos: Dato)
     }
 
 
