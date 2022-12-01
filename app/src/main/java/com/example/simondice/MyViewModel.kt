@@ -48,7 +48,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     val db = Room.databaseBuilder(
         getApplication<Application>().applicationContext,
-        AppDatabase::class.java, "datosBD"
+        AppDataBase::class.java, "datosBD"
     ).build()
 
     

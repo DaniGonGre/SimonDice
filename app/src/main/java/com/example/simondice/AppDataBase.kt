@@ -2,7 +2,7 @@ package com.example.simondice
 
 import androidx.room.*
 
-class AppDatabase {
+class AppDataBase {
 
     @Database(entities = [Dato::class], version = 1)
 
