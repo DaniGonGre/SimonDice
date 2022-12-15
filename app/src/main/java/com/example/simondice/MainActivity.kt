@@ -64,38 +64,6 @@ class MainActivity : AppCompatActivity() {
     var almacenamientoJugador = arrayListOf<String>()
 
     /**
-     * Función mostrar ronda con el observer
-     */
-
-/*
-    fun mostrarRonda() {
-
-        // Instanciamos el ViewModel
-        val miModelo by viewModels<MyViewModel>()
-
-        // Observamos cambios en livedata
-        miModelo.ronda.observe(
-            this,
-            androidx.lifecycle.Observer(
-                fun (_: Int) {
-                    val ronda : TextView = findViewById(R.id.ronda)
-                    if (miModelo.ronda.value != 0)
-                        ronda.text = miModelo.ronda.value.toString()
-                }
-            )
-        )
-        miModelo.record.observe(
-            this,
-            androidx.lifecycle.Observer(
-                fun (_: Int) {
-                    val record : TextView = findViewById(R.id.record)
-                    record.text = miModelo.record.value.toString()
-                }
-            )
-        )
-    }
-*/
-    /**
      * Esta función limpia el almacenamiento de los arrays cada vez que pasamos una ronda o al
      * perder el juego, bloquea la pulsación de los botones, los pone en blanco y inicia el método
      * que visualiza la secuencia aleatoria
@@ -333,6 +301,11 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    /**
+     * Funciones que recogen los métodos del MyViewModel para sumar la ronda y el record.
+     * Además muestran en la interfaz la ronda y el record actualizados.
+     */
 
     fun ronda() {
         val ronda : TextView = findViewById(R.id.numRonda)
