@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     // Creamos una constante privada para darle cambiarle la etiqueta al log
     private val TAG_LOG: String = "mensaje Main"
 
+    val miModelo by viewModels<MyViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Cargamos el layout
@@ -65,8 +67,6 @@ class MainActivity : AppCompatActivity() {
      * Función mostrar ronda con el observer
      */
 
-    val ronda : TextView = findViewById(R.id.numRonda)
-    val recordText : TextView = findViewById(R.id.numRecord)
 /*
     fun mostrarRonda() {
 
@@ -315,6 +315,7 @@ class MainActivity : AppCompatActivity() {
             verde.isEnabled = false
 
             if (almacenamientoJugador == almacenamiento) {
+
                 Toast.makeText(this, "ACERTASTE", Toast.LENGTH_SHORT).show()
                 contRonda++
                 ronda()
@@ -323,10 +324,10 @@ class MainActivity : AppCompatActivity() {
 
 
             } else {
+
                 Toast.makeText(this, "FALLASTE", Toast.LENGTH_SHORT).show()
                 contRonda = 3
                 rondaReinicio()
-                recordReinicio()
                 iniciaPartida()
             }
         }
@@ -334,35 +335,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun ronda() {
-        val miModelo by viewModels<MyViewModel>()
-
-        miModelo.record.observe(this, Observer {
-            ronda.text = miModelo.sumarRonda().toString()
-        })
+        val ronda : TextView = findViewById(R.id.numRonda)
+        miModelo.sumarRonda()
+        ronda.text = miModelo.ronda.value.toString()
     }
 
     fun record() {
-        val miModelo by viewModels<MyViewModel>()
 
-        miModelo.record.observe(this, Observer {
-            recordText.text = miModelo.sumarRecord().toString()
-        })
+        val recordText : TextView = findViewById(R.id.numRecord)
+        miModelo.sumarRecord()
+        recordText.text = miModelo.record.value.toString()
     }
 
     fun rondaReinicio() {
-        val miModelo by viewModels<MyViewModel>()
 
-        miModelo.record.observe(this, Observer {
-            ronda.text = miModelo.reiniciarRonda().toString()
-        })
-    }
+        val ronda : TextView = findViewById(R.id.numRonda)
 
-    fun recordReinicio() {
-        val miModelo by viewModels<MyViewModel>()
-
-        miModelo.record.observe(this, Observer {
-            ronda.text = miModelo.reiniciarRecord().toString()
-        })
+        miModelo.reiniciarRonda()
+        ronda.text = miModelo.ronda.value.toString()
     }
 
 }
